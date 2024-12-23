@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import os
 import win32com.client
@@ -19,6 +20,20 @@ CONNECTION_STRING = (
     fr"Provider={provider};"
     fr"Data Source={data_source};"
     fr"Exclusive={exclusive};"
+)
+
+# Configuración de CORS
+origins = [
+    "http://localhost:5173",
+    # Añade aquí otros orígenes permitidos si es necesario
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
