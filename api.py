@@ -78,9 +78,13 @@ def execute_query(data: QueryModel):
         raise HTTPException(
             status_code=500, detail="Ocurrió un error inesperado durante la ejecución.")
     finally:
-        # Asegúrate de cerrar el recordset si está abierto
-        if recordset is not None and recordset.State == 1:  # Estado 1 significa que está abierto
+        if recordset is not None and recordset.State == 1:
             try:
-                recordset.Close()  # Cerrar el recordset
+                recordset.Close()
             except Exception as e:
                 logging.error(f"Error al cerrar el recordset: {str(e)}")
+        if connection is not None and connection.State == 1:
+            try:
+                connection.Close()
+            except Exception as e:
+                logging.error(f"Error al cerrar la conexión: {str(e)}")
